@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gesture Web Navigation Example</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      padding: 50px; 
+    }
+    #info {
+      margin-top: 30px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gesture Web Navigation</h1>
+  <p>Swipe left or right anywhere on this page to navigate (simulated).</p>
+  <div id="info">Waiting for gesture...</div>
+
+  <script>
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const info = document.getElementById('info');
+
+    function handleGesture() {
+      if (touchEndX < touchStartX - 50) {
+        info.textContent = 'Swiped LEFT: Simulate "Forward" navigation';
+        // window.history.forward(); // Uncomment to actually go forward
+      }
+      if (touchEndX > touchStartX + 50) {
+        info.textContent = 'Swiped RIGHT: Simulate "Back" navigation';
+        // window.history.back(); // Uncomment to actually go back
+      }
+    }
+
+    document.addEventListener('touchstart', function(event) {
+      touchStartX = event.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', function(event) {
+      touchEndX = event.changedTouches[0].screenX;
+      handleGesture();
+    }, false);
+
+    // Optional: Mouse gesture support for desktop
+    let mouseDownX = 0;
+    document.addEventListener('mousedown', function(event) {
+      mouseDownX = event.screenX;
+    }, false);
+    document.addEventListener('mouseup', function(event) {
+      const mouseUpX = event.screenX;
+      if (mouseUpX < mouseDownX - 50) {
+        info.textContent = 'Mouse Drag LEFT: Simulate "Forward" navigation';
+      }
+      if (mouseUpX > mouseDownX + 50) {
+        info.textContent = 'Mouse Drag RIGHT: Simulate "Back" navigation';
+      }
+    }, false);
+
+  </script>
+</body>
+</html>
